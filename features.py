@@ -51,6 +51,149 @@ class RawFeatures:
             return True
         return False
 
+    @staticmethod
+    def length_less_1(token):
+        if len(token) < 2:
+            return True
+        return False
+
+    @staticmethod
+    def length_less_2(token):
+        if len(token) < 4:
+            return True
+        return False
+
+    @staticmethod
+    def length_less_3(token):
+        if len(token) < 8:
+            return True
+        return False
+
+    @staticmethod
+    def length_less_4(token):
+        if len(token) < 16:
+            return True
+        return False
+
+    @staticmethod
+    def start_with_upper_1(token):
+        if re.match('[A-Z][a-z0-9]*$', token):
+            return True
+        return False
+
+    @staticmethod
+    def start_with_upper_2(token):
+        if re.match('[A-Z][a-z]*$', token):
+            return True
+        return False
+
+    @staticmethod
+    def all_upper(token):
+        if re.match('[A-Z]*$', token):
+            return True
+        return False
+
+    @staticmethod
+    def all_upper_2(token):
+        if re.match('[0-9]*[A-Z]*$', token):
+            return True
+        return False
+
+    @staticmethod
+    def root_auto(token):
+        if token.find('auto') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_pete(token):
+        if token.find('pete') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_mobile(token):
+        if token.find('mobile') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_man(token):
+        if token.find('man') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_super(token):
+        if token.find('super') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_ble(token):
+        if token.find('ble') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_tion(token):
+        if token.find('tion') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_s(token):
+        if token.find('s') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_male(token):
+        if token.find('male') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_sub(token):
+        if token.find('sub') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_over(token):
+        if token.find('over') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_am(token):
+        if token.find('am') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_pm(token):
+        if token.find('pm') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_bc(token):
+        if token.find('bc') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_before(token):
+        if token.find('before') != -1:
+            return True
+        return False
+
+    @staticmethod
+    def root_after(token):
+        if token.find('after') != -1:
+            return True
+        return False
 
 class Features:
     def __init__(self):
