@@ -135,8 +135,8 @@ class GeneralDataSet(DataSet):
 class GloveDataSet(GeneralDataSet):
     def __init__(self, _glove, _features):
 
-        y = _glove.embedding[0:100]
-        x = np.asarray(_features.get_vectors(_glove.vocabulary_index[0:100]))
+        y = _glove.embedding[0:1000]
+        x = np.asarray(_features.get_vectors(_glove.vocabulary_index[0:1000]))
 
         super().__init__()
         super().initialize(x, y)

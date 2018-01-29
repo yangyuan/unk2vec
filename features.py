@@ -99,106 +99,56 @@ class RawFeatures:
             return True
         return False
 
-    @staticmethod
-    def root_auto(token):
-        if token.find('auto') != -1:
-            return True
-        return False
+
+class CharFeatures:
+
+    chars = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~']
 
     @staticmethod
-    def root_pete(token):
-        if token.find('pete') != -1:
-            return True
-        return False
+    def _get_grams(_len):
+        if _len == 1:
+            return CharFeatures.chars.copy()
+        else:
+            tmp = CharFeatures._get_grams(_len - 1)
+            ret = []
+            for char in CharFeatures.chars:
+                for gram in tmp:
+                    ret.append(char + gram)
+            return ret
 
     @staticmethod
-    def root_mobile(token):
-        if token.find('mobile') != -1:
-            return True
-        return False
+    def get_features():
 
-    @staticmethod
-    def root_man(token):
-        if token.find('man') != -1:
-            return True
-        return False
+        def _char_to_py_string(token):
+            token = token.replace("\\", "\\\\")
+            token = token.replace("'", "\\'")
+            return "'" + token + "'"
 
-    @staticmethod
-    def root_super(token):
-        if token.find('super') != -1:
-            return True
-        return False
+        ret = []
 
-    @staticmethod
-    def root_ble(token):
-        if token.find('ble') != -1:
-            return True
-        return False
+        for gram in CharFeatures._get_grams(2):
+            gram = _char_to_py_string(gram)
+            tmp = 'lambda x: True if x.find(%s) != -1 else False' % gram
+            ret.append(eval(tmp))
 
-    @staticmethod
-    def root_tion(token):
-        if token.find('tion') != -1:
-            return True
-        return False
+        for gram in CharFeatures._get_grams(1):
+            gram = _char_to_py_string(gram)
+            tmp = 'lambda x: x.startswith(%s)' % gram
+            ret.append(eval(tmp))
+            tmp = 'lambda x: x.endswith(%s)' % gram
+            ret.append(eval(tmp))
 
-    @staticmethod
-    def root_s(token):
-        if token.find('s') != -1:
-            return True
-        return False
+        return ret
 
-    @staticmethod
-    def root_male(token):
-        if token.find('male') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_sub(token):
-        if token.find('sub') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_over(token):
-        if token.find('over') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_am(token):
-        if token.find('am') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_pm(token):
-        if token.find('pm') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_bc(token):
-        if token.find('bc') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_before(token):
-        if token.find('before') != -1:
-            return True
-        return False
-
-    @staticmethod
-    def root_after(token):
-        if token.find('after') != -1:
-            return True
-        return False
 
 class Features:
     def __init__(self):
         self._features = [getattr(RawFeatures, func) for func in dir(RawFeatures)
-                     if callable(getattr(RawFeatures, func)) and not func.startswith('__')]
+                          if callable(getattr(RawFeatures, func)) and not func.startswith('__')]
+
+        # self._features = []
+
+        self._features.extend(CharFeatures.get_features())
         self._size = len(self._features)
 
     def get_size(self):

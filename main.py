@@ -4,13 +4,15 @@ from utils import GloveDataSet, GeneralDataSet
 import tensorflow as tf
 import numpy as np
 
-'''
-glove.parse('data/glove.840B.300d.txt')
-glove.dump('data/glove.840B.300d')
-'''
 
 glove = Glove()
+# glove.parse('data/glove.840B.300d.txt')
+# glove.dump('data/glove.840B.300d')
+
+chars = set()
 glove.load('data/glove.840B.300d')
+
+
 data = GloveDataSet(glove, Features())
 data.dump('data/dataset')
 
@@ -22,7 +24,7 @@ _x, _y = data.all_data()
 x = tf.placeholder(tf.float32, (_x.shape[1], None))
 y = tf.placeholder(tf.float32, (_y.shape[1], None))
 
-w1 = tf.get_variable('w1', (1000, _x.shape[1]), initializer=tf.random_normal_initializer(mean=0.0, stddev=0.000001))
+w1 = tf.get_variable('w1', (1000, _x.shape[1]), initializer=tf.random_normal_initializer(mean=0.0, stddev=0.1))
 b1 = tf.get_variable('b1', (1000, 1), initializer=tf.random_normal_initializer())
 w2 = tf.get_variable('w2', (800, 1000), initializer=tf.random_normal_initializer(mean=0.0, stddev=0.01))
 b2 = tf.get_variable('b2', (800, 1), initializer=tf.random_normal_initializer())
@@ -67,7 +69,7 @@ init_op = tf.global_variables_initializer()
 with tf.Session() as sess:
     sess.run(init_op)
 
-    for i in range(1000):
+    for i in range(100):
         _, c = sess.run([optimizer, cost], feed_dict={x: np.transpose(_x), y: np.transpose(_y)})
         print(c)
 
